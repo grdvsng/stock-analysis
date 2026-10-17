@@ -14,8 +14,6 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
-lib64/
 parts/
 sdist/
 var/
@@ -216,3 +214,17 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Node / npm
+node_modules/
+.npm/
+.npm-cache/
+.node_repl_history
+.eslintcache
+.vite/
+*.tsbuildinfo
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+services/UI/dist/
