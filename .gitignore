@@ -228,3 +228,4 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 services/UI/dist/
+.build

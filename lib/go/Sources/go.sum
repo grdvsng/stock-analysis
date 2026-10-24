@@ -1,6 +1,0 @@
-github.com/ThomasMarcelis/ibkr-go/v2 v2.1.0 h1:Aj0Uxrtn/cGTvN/WAuVKn6BMhSvx5lZAkx3LvL+0j98=
-github.com/ThomasMarcelis/ibkr-go/v2 v2.1.0/go.mod h1:FXyiuM5ke+hs5NSJ5MIvJEWN4XCT3Eyfqa5f28vwaXY=
-github.com/shopspring/decimal v1.5.0 h1:HxSWk31RmJv0EyY4oLiGQB9u7WPludUwPBdvQZnYFPc=
-github.com/shopspring/decimal v1.5.0/go.mod h1:gawqmDU56v4yIKSwfBSFip1HdCCXN8/+DMd9qYNcwME=
-google.golang.org/protobuf v1.36.12 h1:pJOKDDOyeXErUroCihFAd5LQuwXBSpVnKGrj5o/fwxc=
-google.golang.org/protobuf v1.36.12/go.mod h1:HTf+CrKn2C3g5S8VImy6tdcUvCska2kB7j23XfzDpco=
