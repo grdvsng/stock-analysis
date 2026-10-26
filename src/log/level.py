@@ -1,12 +1,12 @@
 from enum import Enum
 
-from logging import _levelToName, LOG_LEVELS
+from logging import _levelToName, CRITICAL, ERROR, WARNING, INFO, DEBUG, NOTSET
 
 
 class Level(Enum):
-    CRITICAL = _levelToName[LOG_LEVELS['CRITICAL']]
-    ERROR = _levelToName[LOG_LEVELS['ERROR']]
-    WARNING = _levelToName[LOG_LEVELS['WARNING']]
-    INFO = _levelToName[LOG_LEVELS['INFO']]
-    DEBUG = _levelToName[LOG_LEVELS['DEBUG']]
-    NOTSET = _levelToName[LOG_LEVELS['NOTSET']]
+    CRITICAL = _levelToName[CRITICAL]
+    ERROR = _levelToName[ERROR]
+    WARNING = _levelToName[WARNING]
+    INFO = _levelToName[INFO]
+    DEBUG = _levelToName[DEBUG]
+    NOTSET = _levelToName[NOTSET]

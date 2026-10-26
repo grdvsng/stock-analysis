@@ -1,5 +1,5 @@
-from ...src.types.numeric import Number
-from ...src.types.result import Result
+from ...types.numeric import Number
+from ...types.result import Result
 from urllib.parse import urlparse
 from sqlalchemy.orm import validates, DeclarativeBase
 from typing import Callable, Optional, Type, TypeVar, Union, Iterable, Hashable
@@ -89,13 +89,13 @@ def validate(
     key: str, validator_type: Callable[[str, Optional[T]], Result[T, ValidationError]]
 ) -> Callable[[Type[M]], Type[M]]:
     def wrapper(cls: Type[M]) -> Type[M]:
-        class _(cls):
-            @validates(key)
-            def wrapper(
-                self: M, key: str, value: Optional[T]
-            ) -> Result[T, ValidationError]:
-                return validator_type(key, value)
+        def v(
+            _: M, key: str, value: Optional[T]
+        ) -> Result[T, ValidationError]:
+            return validator_type(key, value)
 
-        return _
+        validates(key)(v)
+
+        return cls
 
     return wrapper

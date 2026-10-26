@@ -1,7 +1,7 @@
 from typing import Literal
 
-DurationShortType = Literal["seconds", "minutes", "hours"] 
+DurationShortType = Literal["seconds", "minutes", "hours"]
 DurationLongType = Literal["days", "weeks", "months", "years"]
-DurationValue = int
+DurationValue = float
 
 DurationType = Literal["seconds", "minutes", "hours", "days", "weeks", "months", "years"]

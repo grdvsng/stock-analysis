@@ -6,7 +6,7 @@ from .level import Level
 from datetime import datetime
 from getpass import getuser
 from pydantic import BaseModel, Field
-from pydantic_avro.base import AvroBaseModel
+from pydantic_avro import AvroBase
 
 
 class Record(BaseModel):
@@ -34,7 +34,6 @@ class Record(BaseModel):
 
     @classmethod
     def avro_schema(cls) -> str:
-        class _(cls, AvroBaseModel):
-            pass
+        model = type(cls.__name__, (AvroBase, cls), {})
 
-        return json.dumps(_.avro_schema())
+        return json.dumps(model.avro_schema())

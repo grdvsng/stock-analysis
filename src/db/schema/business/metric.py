@@ -1,5 +1,6 @@
 from ..base import Base
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, Relationship, backref
+from sqlalchemy import ForeignKey
 
 
 class Metric(Base):
@@ -10,3 +11,5 @@ class Metric(Base):
     bid_size: Mapped[float] = mapped_column()
     ask_size: Mapped[float] = mapped_column()
 
+    contract: Mapped["Contract"] = Relationship("Contract", backref=backref("metrics", uselist=True))
+    contract_id: Mapped[int] = mapped_column(ForeignKey("contract.id"))

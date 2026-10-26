@@ -1,7 +1,7 @@
 from ..base import Base
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column
-from ....src.types.time import DurationType
+from src.types.time import DurationType
 
 
 class Indicator(Base):

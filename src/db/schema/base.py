@@ -1,27 +1,41 @@
 import uuid
 
+from ...helpers.string import camel_to_snake
 from getpass import getuser
-from datetime import datetime
-from sqlalchemy import DateTime, String
+from datetime import datetime, UTC
+from sqlalchemy.orm import declared_attr
+from sqlalchemy import String, Integer
 from sqlalchemy.ext.asyncio import AsyncAttrs
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 from sqlalchemy import MetaData
+from .type_map import TYPE_ANNOTATION_MAP
 
 meta = MetaData()
 
 
+def utc_now() -> datetime:
+    return datetime.now(UTC)
+
+
 class Base(AsyncAttrs, DeclarativeBase):
     __abstract__ = True
-    __table_args__ = {"extend_existing": True, "metadata": meta}
+    __table_args__ = {"extend_existing": True}
 
-    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
-    created_at: Mapped[DateTime] = mapped_column(
-        default_factory=datetime.now, sort_order=1
+    metadata = meta
+    type_annotation_map = TYPE_ANNOTATION_MAP
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    created_at: Mapped[datetime] = mapped_column(
+        default=utc_now, sort_order=1
     )
-    updated_at: Mapped[DateTime] = mapped_column(
-        default_factory=datetime.now, onupdate=datetime.now
+    updated_at: Mapped[datetime] = mapped_column(
+        default=utc_now, onupdate=utc_now
     )
     created_by: Mapped[str] = mapped_column(
-        String(64), sort_order=1, default_factory=getuser
+        String(64), sort_order=1, default=getuser
     )
+
+    @declared_attr.directive
+    def __tablename__(cls) -> str:
+        return camel_to_snake(cls.__name__)

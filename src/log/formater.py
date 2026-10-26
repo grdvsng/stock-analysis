@@ -1,7 +1,7 @@
 from enum import Enum
 from .record import Record
 from typing import Dict, Any
-from logging import Formatter, Record as BasicRecord
+from logging import Formatter, LogRecord as BasicRecord
 
 
 class Basic(Formatter):

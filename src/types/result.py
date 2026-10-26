@@ -4,7 +4,7 @@ T = TypeVar("T")
 E = TypeVar("E", bound=Exception)
 
 
-class TypedError(Never, Generic[E]):
+class TypedError(Generic[E]):
     pass
 
 
