@@ -4,7 +4,7 @@ from src.log.level import Level
 from .record import Record
 from fastavro import writer as avro_writer, parse_schema
 from typing import Dict, Generic, TypeVar, List, Any
-from .formater import Json as JsonFormatter, Tsv as TsvFormatter, Avro as AvroFormatter
+from .formatter import Json as JsonFormatter, Tsv as TsvFormatter, Avro as AvroFormatter
 from logging import FileHandler, Formatter, Handler
 
 F = TypeVar("F", bound="Formatter")
@@ -31,8 +31,8 @@ class Tsv(TextHandler[TsvFormatter]):
 
 
 class Avro(Handler):
-    formatter = AvroFormatter()
     max_cache_size: int = 1000
+    mutex = Lock()
 
     def __init__(self, level: Level, path: Path) -> None:
         self.schema = parse_schema(Record.avro_schema())
@@ -40,14 +40,17 @@ class Avro(Handler):
         self.path = path
         self.mutex = Lock()
 
-        super().__init__(level=level)
+        super().__init__(level=level.value)
+        self.setFormatter(AvroFormatter())
+        self.path.parent.mkdir(parents=True, exist_ok=True)
 
     def flush(self, force: bool = False) -> None:
-        with self.mutex:
-            if self.cache and (force or len(self.cache) >= self.max_cache_size):
-                with open(self.path, "ab") as stream:
-                    avro_writer(stream, self.schema, self.cache)
-                self.cache.clear()
+        if getattr(self, "cache", None) is not None:
+            with self.mutex:
+                if self.cache and (force or len(self.cache) >= self.max_cache_size):
+                    with open(self.path, "ab") as stream:
+                        avro_writer(stream, self.schema, self.cache)
+                    self.cache = []
 
     def emit(self, record):
         with self.mutex:
@@ -57,3 +60,7 @@ class Avro(Handler):
 
     def __del__(self):
         self.flush(True)
+
+    def close(self) -> None:
+        self.flush(True)
+        super().close()

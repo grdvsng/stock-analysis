@@ -1,3 +1,5 @@
+import re
+
 from ...types.numeric import Number
 from ...types.result import Result
 from urllib.parse import urlparse
@@ -8,6 +10,9 @@ from typing import Callable, Optional, Type, TypeVar, Union, Iterable, Hashable
 M = TypeVar("M", bound="DeclarativeBase")
 T = TypeVar("T")
 
+HOST_REGEX = re.compile(
+    r"^(?:(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}|localhost|(?:\d{1,3}\.){3}\d{1,3})$"
+)
 
 class ValidationError(ValueError):
     def __init__(self, key: str, message: str):
@@ -23,8 +28,8 @@ def validate_host(key: Optional[str]) -> Callable[[Type[M]], Type[M]]:
         try:
             parsed = urlparse(value)
 
-            if not parsed.hostname:
-                raise ValidationError(key, "Invalid host")
+            if not HOST_REGEX.match(value):
+                raise ValidationError(key, "Host does not match required pattern")
 
             if parsed.port is not None:
                 raise ValidationError(key, "Port should not be specified in host")

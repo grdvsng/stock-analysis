@@ -1,7 +1,7 @@
 from .base import Base
 from pathlib import Path
 from src.types.time import DurationLongType, DurationValue
-from src.log.formater import Format
+from src.log.formatter import Format
 from src.log.level import Level
 from sqlalchemy.orm import Mapped, mapped_column
 

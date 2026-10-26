@@ -35,5 +35,4 @@ class Record(BaseModel):
     @classmethod
     def avro_schema(cls) -> str:
         model = type(cls.__name__, (AvroBase, cls), {})
-
-        return json.dumps(model.avro_schema())
+        return model.avro_schema()

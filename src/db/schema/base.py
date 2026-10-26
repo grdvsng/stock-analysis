@@ -1,10 +1,8 @@
-import uuid
-
 from ...helpers.string import camel_to_snake
 from getpass import getuser
 from datetime import datetime, UTC
 from sqlalchemy.orm import declared_attr
-from sqlalchemy import String, Integer
+from sqlalchemy import String, BigInteger
 from sqlalchemy.ext.asyncio import AsyncAttrs
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
@@ -25,9 +23,9 @@ class Base(AsyncAttrs, DeclarativeBase):
     metadata = meta
     type_annotation_map = TYPE_ANNOTATION_MAP
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
     created_at: Mapped[datetime] = mapped_column(
-        default=utc_now, sort_order=1
+        default=utc_now, sort_order=1, index=True
     )
     updated_at: Mapped[datetime] = mapped_column(
         default=utc_now, onupdate=utc_now

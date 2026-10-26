@@ -27,7 +27,7 @@ class Tsv(Basic):
 
 class Avro(Basic):
     def format(self, record: BasicRecord) -> Dict[str, Any]:
-        return self.convert(record).model_dump()
+        return self.convert(record).model_dump(mode="json")
 
 
 class Format(Enum):
